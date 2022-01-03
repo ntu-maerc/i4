@@ -1,0 +1,566 @@
+<?xml version = "1.0" ?>
+<robot name = "PPRobot" xmlns:xacro = "http://www.ros.org/wiki/xacro">
+
+    <link name="base_link">
+            <pose>0 0 0.5 0 0 0</pose> 
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <box size="2 1.5 0.3" />
+        </geometry>
+        <material name="green">
+            <color rgba="0.0 0.8 0.0 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="20" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="6.816667" ixy="0" ixz="0" iyy="10.4166667" iyz="0" izz="3.9" />
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <box size="2 1.5 0.3" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="Left_Wheel_joint" type="continuous">
+      <axis xyz="0 1 0" />
+      <origin rpy="0 0 0" xyz="-0.5 0.8 0" />
+      <parent link="base_link" />
+      <child link="Left_Wheel_Link" />
+      <limit effort="1000" velocity="1000"/>
+      <joint_properties damping="1.0" friction="1.0"/>
+    </joint>
+
+    <transmission name="Left_Wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="Left_Wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="Left_Wheel_actuator">
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>    
+
+    <link name="Left_Wheel_Link">
+      <visual>
+        <origin rpy="0 1.57 1.57" xyz="0 0 0" />
+        <geometry>
+            <cylinder radius="0.4" length="0.1" />
+        </geometry>
+        <material name="blue">
+            <color rgba="0.203125 0.23828125 0.28515625 1.0"/>
+        </material> 
+      </visual>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0 1.57 1.57" xyz="0 0 0" />
+        <inertia ixx="0.040833" ixy="0" ixz="0" iyy="0.040833" iyz="0" izz="0.08" />
+      </inertial>
+      <collision>
+        <origin rpy="0 1.57 1.57" xyz="0 0 0" />
+        <geometry>
+          <cylinder radius="0.4" length="0.1" />
+        </geometry>
+      </collision>
+    </link> 
+  
+    <gazebo reference="Left_Wheel_Link">
+ <!--       <kp>1.0</kp>
+        <kd>1.0</kd>    
+        <minDepth>0.001</minDepth>   --> 
+        <mu1>1000.0</mu1>
+        <mu2>1000.0</mu2>
+<!--        <fdir1>1 0 0</fdir1>  
+        <maxVel>1.0</maxVel>
+        <minDepth>0.00</minDepth>  -->
+    </gazebo>
+
+    <joint name="Right_Wheel_joint" type="continuous">
+      <axis xyz="0 1 0" />
+      <origin rpy="0 0 0" xyz="-0.5 -0.8 0" />
+      <parent link="base_link" />
+      <child link="Right_Wheel_Link" />
+      <limit effort="1000" velocity="1000"/>
+      <joint_properties damping="1.0" friction="1.0"/>
+    </joint>
+
+    <transmission name="Right_Wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="Right_Wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="Right_Wheel_actuator">
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>  
+
+    <link name="Right_Wheel_Link">
+      <visual>
+        <origin rpy="0 1.57 1.57" xyz="0 0 0" />
+        <geometry>
+          <cylinder radius="0.4" length="0.1" />
+        </geometry>
+        <material name="blue">
+            <color rgba="0.203125 0.23828125 0.28515625 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0 1.57 1.57" xyz="0 0 0" />
+        <inertia ixx="0.040833" ixy="0" ixz="0" iyy="0.040833" iyz="0" izz="0.08" />
+      </inertial>
+      <collision>
+        <origin rpy="0 1.57 1.57" xyz="0 0 0" />
+        <geometry>
+          <cylinder radius="0.4" length="0.1" />
+        </geometry>
+      </collision>
+    </link>
+    
+    <gazebo reference="Right_Wheel_Link">
+<!--        <kp>1.0</kp>
+        <kd>1.0</kd>  
+        <minDepth>0.001</minDepth>   -->
+        <mu1>1000.0</mu1>
+        <mu2>1000.0</mu2>
+<!--        <fdir1>1 0 0</fdir1>  
+        <maxVel>1.0</maxVel>
+        <minDepth>0.00</minDepth>  -->
+    </gazebo>
+
+    <joint name="Caster_Wheel_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="0.75 0 -0.15" />
+      <parent link="base_link" />
+      <child link="Caster_Wheel" />
+    </joint>
+
+    <link name="Caster_Wheel">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <sphere radius="0.25" />
+        </geometry>
+      </visual>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="0.0416667" ixy="0" ixz="0" iyy="0.0416667" iyz="0" izz="0.0416667" />
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <sphere radius="0.25" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="Caster_Wheel">
+<!--        <kp>1.0</kp>
+        <kd>1.0</kd>  
+        <minDepth>0.001</minDepth>   -->
+        <mu1>0.0</mu1>
+        <mu2>0.0</mu2>
+        <slip1>1.0</slip1>
+        <slip2>1.0</slip2>
+<!--        <fdir1>1 0 0</fdir1>  
+        <maxVel>1.0</maxVel>
+        <minDepth>0.00</minDepth>  -->
+    </gazebo>
+
+<!--    <joint name="base_link1_joint" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="1000" lower="-3.14" upper="3.14" velocity="0.5" />
+      <origin rpy="0 0 0" xyz="0 0 0.15" />
+      <parent link="base_link" />
+      <child link="link1" />
+    </joint>   -->
+
+    <joint name="base_imu_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="0 0 0.15" />
+      <parent link="base_link" />
+      <child link="imu_link" />
+    </joint>
+
+<!--    <transmission name="base_link1_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="base_link1_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="base_link1_actuator">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>       -->
+    
+    <link name="imu_link">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0.2" />
+        <geometry>
+          <cylinder radius="0.35" length="0.4" />
+        </geometry>
+        <material name="orange">
+            <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="0.01" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="0.00043958" ixy="0" ixz="0" iyy="0.00043958" iyz="0" izz="0.0006125" />
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.2" />
+        <geometry>
+          <cylinder radius="0.35" length="0.4" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="imu_link">
+        <gravity>true</gravity>
+        <sensor name="imu_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <topic>__default_topic__</topic>
+        <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+            <topicName>imu</topicName>
+            <bodyName>imu_link</bodyName>
+            <updateRateHZ>10.0</updateRateHZ>
+            <gaussianNoise>0.0</gaussianNoise>
+            <xyzOffset>0 0 0</xyzOffset>
+            <rpyOffset>0 0 0</rpyOffset>
+            <frameName>imu_link</frameName>
+            <initialOrientationAsReference>false</initialOrientationAsReference>
+        </plugin>
+        <pose>0 0 0 0 0 0</pose>
+        </sensor>
+    </gazebo>
+
+    <joint name="imu_link2_joint" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="1000" lower="-3.14" upper="3.14" velocity="0.5" />
+      <origin rpy="0 0 0" xyz="0 0 0.4" />
+      <parent link="imu_link" />
+      <child link="link2" />
+    </joint>
+
+    <transmission name="imu_link2_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="imu_link2_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="imu_link2_actuator">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <link name="link2">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0.4" />
+        <geometry>
+          <cylinder radius="0.15" length="0.8" />
+        </geometry>
+        <material name="brown">
+            <color rgba="0.870588235294 0.811764705882 0.764705882353 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="0.01" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="0.000589583" ixy="0" ixz="0" iyy="0.000589583" iyz="0" izz="0.0001125" />
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.4" />
+        <geometry>
+          <cylinder radius="0.15" length="0.8" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="link2_link3_joint" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="1000" lower="-3.14" upper="3.14" velocity="0.5" />
+      <origin rpy="0 0 0" xyz="0 0 0.8" />
+      <parent link="link2" />
+      <child link="link3" />
+    </joint>
+
+    <transmission name="link2_link3_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="link2_link3_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="link2_link3_actuator">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <link name="link3">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0.4" />
+        <geometry>
+          <cylinder radius="0.15" length="0.8" />
+        </geometry>
+        <material name="brown">
+            <color rgba="0.870588235294 0.811764705882 0.764705882353 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="0.01" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+         <inertia ixx="0.000589583" ixy="0" ixz="0" iyy="0.000589583" iyz="0" izz="0.0001125" />
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.4" />
+        <geometry>
+          <cylinder radius="0.15" length="0.8" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="link3_link4_joint" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="1000" lower="-3.14" upper="3.14" velocity="0.5" />
+      <origin rpy="0 0 0" xyz="0 0 0.8" />
+      <parent link="link3" />
+      <child link="link4" />
+    </joint>
+
+    <transmission name="link3_link4_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="link3_link4_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="link3_link4_actuator">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <link name="link4">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0.4" />
+        <geometry>
+          <cylinder radius="0.15" length="0.8" />
+        </geometry>
+        <material name="brown">
+            <color rgba="0.870588235294 0.811764705882 0.764705882353 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="0.01" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+         <inertia ixx="0.000589583" ixy="0" ixz="0" iyy="0.000589583" iyz="0" izz="0.0001125" />
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.4" />
+        <geometry>
+          <cylinder radius="0.15" length="0.8" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="link4_Gripper_joint" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="1000" lower="-3.14" upper="3.14" velocity="0.5" />
+      <origin rpy="0 0 0" xyz="0 0 0.8" />
+      <parent link="link4" />
+      <child link="Gripper_Link" />
+    </joint>
+
+    <transmission name="link4_Gripper_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="link4_Gripper_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="link4_Gripper_actuator">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <link name="Gripper_Link">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0.2" />
+        <geometry>
+          <box size="0.15 0.8 0.4" />
+        </geometry>
+        <material name="grey">
+            <color rgba="0.2 0.2 0.2 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="0.01" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="0.0001520833" ixy="0" ixz="0" iyy="0.0005520833" iyz="0" izz="0.00066667" />
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.2" />
+        <geometry>
+         <box size="0.15 0.8 0.4" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="Right_Gripper_Joint" type="prismatic">
+      <axis xyz="0 1 0" />
+      <limit effort="1000" lower="0" upper="-0.3" velocity="0.5" />
+      <origin rpy="0 0 0" xyz="0.075 0.35 0.2" />
+      <parent link="Gripper_Link" />
+      <child link="Right_Gripper" />
+    </joint>
+
+    <transmission name="Right_Gripper_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="Right_Gripper_Joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="Right_Gripper_actuator">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <link name="Right_Gripper">
+      <visual>
+        <origin rpy="1.57 0 0" xyz="0.25 0 0" />
+        <geometry>
+          <box size="0.5 0.4 0.1" />
+        </geometry>
+        <material name="grey">
+            <color rgba="0.2 0.2 0.2 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="0.01" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="0.000216667" ixy="0" ixz="0" iyy="0.000341667" iyz="0" izz="0.0001416667" />
+      </inertial>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0.25 0 0" />
+        <geometry>
+         <box size="0.5 0.4 0.1" />
+        </geometry>
+      </collision>
+    </link>   
+
+    <joint name="Left_Gripper_Joint" type="prismatic">
+      <axis xyz="0 1 0" />
+      <limit effort="1000" lower="0" upper="0.3" velocity="0.5" />
+      <origin rpy="0 0 0" xyz="0.075 -0.35 0.2" />
+      <parent link="Gripper_Link" />
+      <child link="Left_Gripper" />
+    </joint>
+
+    <transmission name="Left_Gripper_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="Left_Gripper_Joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="Left_Gripper_actuator">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <link name="Left_Gripper">
+      <visual>
+        <origin rpy="1.57 0 0" xyz="0.25 0 0" />
+        <geometry>
+          <box size="0.5 0.4 0.1" />
+        </geometry>
+        <material name="grey">
+            <color rgba="0.2 0.2 0.2 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="0.01" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="0.000216667" ixy="0" ixz="0" iyy="0.000341667" iyz="0" izz="0.0001416667" />
+      </inertial>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0.25 0 0" />
+        <geometry>
+         <box size="0.5 0.4 0.1" />
+        </geometry>
+      </collision>
+    </link>
+    
+    
+    <joint name="Laser_joint" type="fixed">
+      <axis xyz="0 1 0" />
+      <origin rpy="0 0 0" xyz="0.8 0 0.25" />
+      <parent link="base_link" />
+      <child link="Laser_link" />
+    </joint>
+
+    <link name="Laser_link">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <cylinder radius="0.15" length="0.2" />
+        </geometry>
+        <material name="white">
+            <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="0.01" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="0.000264583" ixy="0" ixz="0" iyy="0.000264583" iyz="0" izz="0.0001125" />
+      </inertial>
+<!--      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <cylinder radius="0.15" length="0.5" />
+        </geometry>
+      </collision>  -->
+    </link> 
+
+    <gazebo reference="Laser_link">
+        <sensor type="ray" name="head_hokuyo_sensor">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>False</visualize>
+        <update_rate>40</update_rate>
+        <ray>
+            <scan>
+            <horizontal>
+                <samples>720</samples>
+                <resolution>1</resolution>
+                <min_angle>-1.570796</min_angle>
+                <max_angle>1.570796</max_angle>
+            </horizontal>
+            </scan>
+            <range>
+            <min>0.10</min>
+            <max>30.0</max>
+            <resolution>0.01</resolution>
+            </range>
+            <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+            </noise>
+        </ray>
+        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+            <topicName>scan</topicName>
+            <frameName>Laser_link</frameName>
+        </plugin>
+        </sensor>
+    </gazebo>
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/PPRobot</robotNamespace>
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
+
+</robot>

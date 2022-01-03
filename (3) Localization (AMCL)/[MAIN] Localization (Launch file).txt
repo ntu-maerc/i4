@@ -1,0 +1,7 @@
+<launch>
+
+<include file = "$(find localization_launcher)/launch/localization.launch" />
+
+<include file = "$(find mapping_launcher)/launch/filter.launch" />
+
+</launch>

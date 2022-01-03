@@ -1,0 +1,38 @@
+<launch>
+    
+    <!-- load the Gazebo WORLD -->
+    <include file = "$(find robotic_arm_description)/launch/world.launch" />
+
+    <!-- Load Teleop Twist Keyboard -->
+<!--    <include file = "$(find robotic_arm_description)/launch/teleop.launch" />   -->
+
+
+    <!-- load & spawn the robot MODEL in Gazebo -->
+
+<!--   <param name="robot_description" command="$(find xacro)/xacro '$(find robotic_arm_description)/urdf/MAIN.xacro'"/>
+
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0"/>
+-->
+
+   <include file = "$(find robotic_arm_description)/launch/spawn_robot.launch" /> 
+
+
+    <!-- load & spawn the CONTROLLERS in Gazebo -->
+    <rosparam file = "$(find robotic_arm_description)/Config/Controllers.yaml" command = "load" />
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns = "/PPRobot" args= "mobile_base_controller joint_state_controller arm_controller gripper_controller" />
+
+
+    <!-- This is a TF node that receives input from the joint state CONTROLLER, and publishes all the TF frames IN Rviz -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+        <remap from="/joint_states" to="/PPRobot/joint_states" />
+        <param name="publish_frequency" value="100.0" />    
+    </node>  
+
+  <!-- To Open Rviz -->  
+    <node name="rviz" pkg="rviz" type="rviz" />
+
+</launch>
